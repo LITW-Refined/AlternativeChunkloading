@@ -4,7 +4,7 @@ A forge mod for Minecraft 1.7.10 wich stops so called "ghost chunks" or "ghost l
 
 ## Technical background
 
-It uses an vanilla toggle on each loaded WorldProvider instance to stop automatic chunkloading whenever a block or entity is requested. That can only be loaded explicitely. 
+It uses an vanilla toggle on each loaded WorldProvider instance to stop automatic chunkloading whenever a block or entity is requested. Those chunks can then only be loaded explicitely.
 
 Two experimental options for loading chunks on request has been added.
 This can be used to prevent Mods (and core Minecraft itself) from loading chunks whenever a block is requested there. This also means "ghost loading" or "cascade loading" chunks.
@@ -15,10 +15,10 @@ There is one configruation field in the `WorldServer` object called `loadChunkOn
 
 ## Configuration
 
-If `disableChunkLoadingOnRequest` is `true`, ensure to check all your chunk loaders for functionality.
+If `disableChunkLoadingOnRequest` is `true` (default is `true`) then the mod sets the vanilla toggle (see above) to `false`.
 Think about switching [to my fork of Chicken Chunks](https://github.com/Pilzinsel64/ChickenChunks/). I added a fix to [load the chunk before requesting the block](https://github.com/LITW-Refined-New-Stories/ChickenChunks/commit/f0b54095567591b799a90fc2bade1ba5ad5e3c96) (that's how it should be done in general).
 
-Also set `autoLoadChunksOnTicketCreation` to `true` if you don't know what you do!
+Also set `autoLoadChunksOnTicketCreation` to `true` (default ist `true`) if you don't know what you do!
 This continues functionality of chunk loading tickers. So anytime whenever a chunk loading ticket is created by a Mod, the chunks will be also loaded (Forge itself doesn't that automatically).
 
 ## Compatibility
