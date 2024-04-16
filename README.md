@@ -11,7 +11,7 @@ This can be used to prevent Mods (and core Minecraft itself) from loading chunks
 However, this will help with performance just slightly. It hightly depends on what other mods you use and how you use the mods.
 
 Basically for a Mod, if it needs a Block at Position XYZ, it calls `getBlock()` or `getTileEntity()` or `getEntity`. By default, this methods will load the chunk where the block or entity is loaced in. Often this is not expected and in some cases can cause lags. G.g. AE2 or Ender IO Conduits or any other multiblock structure can be a cause for such a behavior. Even Minecraft's Grass block that wants to extend its Grass to nearby dirt blocks.
-There is one configruation field in the `WorldServer` object called `loadChunkOnProvideRequest` that is true by default. Setting this to false only loads chunks when explicitely loaded via e.g. `loadChunk(x, y, z)`.
+There is one configruation field in the `ChunkProviderServer` class called `loadChunkOnProvideRequest` that is true by default. Setting this to false on each instance on `WorldEvent.Load` event only loads chunks when explicitely loaded via e.g. `loadChunk(x, y, z)`.
 
 ## Configuration
 
