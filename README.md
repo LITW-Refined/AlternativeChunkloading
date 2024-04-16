@@ -4,7 +4,7 @@ A forge mod for Minecraft 1.7.10 that stops so called "ghost loading" or "cascad
 
 ## Technical background
 
-It uses an vanilla toggle on each loaded WorldProvider instance to stop automatic chunkloading whenever a block or entity is requested. Those chunks can then only be loaded explicitely.
+It make use of a vanilla toggle on each WorldProvider instance to stop automatic chunkloading whenever a block or entity is requested. Those chunks can then only be loaded explicitely.
 
 Two experimental options for loading chunks on request has been added.
 This can be used to prevent Mods (and core Minecraft itself) from loading chunks whenever a block is requested there. This also means "ghost loading" or "cascade loading" chunks.
