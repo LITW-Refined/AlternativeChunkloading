@@ -1,6 +1,6 @@
 # Alternative Chunkloading
 
-A forge mod for Minecraft 1.7.10 wich stops so called "ghost chunks" or "ghost loading of chunks".
+A forge mod for Minecraft 1.7.10 that stops so called "ghost loading" or "cascade loading" of chunks.
 
 ## Technical background
 
