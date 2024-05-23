@@ -24,7 +24,7 @@ public class ConfigGeneral {
     public static boolean autoUnloadDimensions;
 
     @Config.Comment("Ticks before a dimension should be unloaded when it hasn't any chunk loaded. Only has affect if \"autoLoadChunksOnTicketCreation\" is active.")
-    @Config.DefaultInt(300)
+    @Config.DefaultInt(1200)
     public static int ticksBeforeUnloadDimension;
 
     @Config.Comment("Ticks before a dimension should be unloaded when it hasn't any chunk loaded. Only has affect if \"autoLoadChunksOnTicketCreation\" is active.")
