@@ -35,10 +35,6 @@ public class EventHandler {
                     ((ChunkProviderServer) chunkProvider).loadChunkOnProvideRequest = false;
                 }
             }
-
-            if (ConfigGeneral.autoUnloadDimensions) {
-                checkDimensionToUnload(world);
-            }
         }
     }
 
@@ -74,27 +70,16 @@ public class EventHandler {
             WorldServer world = (WorldServer) event.ticket.world;
 
             // Prevent chunks to be auto loaded
-            var coordMap = getPendingForcedChunksForWorld((WorldServer) event.ticket.world);
+            var coordMap = getPendingForcedChunksForWorld(world);
             if (coordMap.containsKey(event.location)) {
                 coordMap.remove(event.location);
             }
-
-            // Check dimension to auto unload
-            checkDimensionToUnload(world);
         }
     }
 
     @SubscribeEvent
     public void onChunkLoad(ChunkEvent.Load event) {
         pendingUnloadDimensions.remove(event.world);
-    }
-
-    @SubscribeEvent
-    public void onChunkUnload(ChunkEvent.Load event) {
-        // Check dimension to unload
-        if (ConfigGeneral.autoUnloadDimensions && !event.world.isRemote && event.world instanceof WorldServer) {
-            checkDimensionToUnload((WorldServer) event.world);
-        }
     }
 
     @SubscribeEvent
@@ -111,13 +96,9 @@ public class EventHandler {
     }
 
     private void checkDimensionToUnload(WorldServer world) {
-        // Check if already pending
-        if (pendingUnloadDimensions.containsKey(world)) {
-            return;
-        }
-
         // Check blacklist
-        if (ConfigGeneral.isOnAutoUnloadDimensionBlacklist(world.provider.dimensionId)) {
+        if (!ConfigGeneral.autoUnloadDimensions
+            || ConfigGeneral.isOnAutoUnloadDimensionBlacklist(world.provider.dimensionId)) {
             return;
         }
 
@@ -127,7 +108,7 @@ public class EventHandler {
             return;
         }
 
-        // Put on list
+        // Put on list or reset timer
         pendingUnloadDimensions.put(world, 0);
     }
 
@@ -167,10 +148,8 @@ public class EventHandler {
         Integer ticksWaited = pendingUnloadDimensions.getOrDefault(world, -1);
 
         if (ticksWaited == -1) {
-            return;
-        }
-
-        if (ticksWaited >= ConfigGeneral.ticksBeforeUnloadDimension) {
+            checkDimensionToUnload(world);
+        } else if (ticksWaited >= ConfigGeneral.ticksBeforeUnloadDimension) {
             // Unload dimension
             pendingUnloadDimensions.remove(world);
             DimensionManager.unloadWorld(world.provider.dimensionId);
