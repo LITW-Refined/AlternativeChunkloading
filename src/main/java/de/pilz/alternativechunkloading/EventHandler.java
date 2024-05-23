@@ -7,8 +7,10 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderServer;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager.ForceChunkEvent;
 import net.minecraftforge.common.ForgeChunkManager.UnforceChunkEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -19,14 +21,32 @@ import de.pilz.alternativechunkloading.configuration.ConfigGeneral;
 public class EventHandler {
 
     private HashMap<WorldServer, HashMap<ChunkCoordIntPair, Integer>> pendingForcedChunks = new HashMap<>();
+    private HashMap<WorldServer, Integer> pendingUnloadDimensions = new HashMap<>();
 
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
-        if (ConfigGeneral.disableChunkLoadingOnRequest && !event.world.isRemote) {
-            IChunkProvider chunkProvider = event.world.getChunkProvider();
-            if (chunkProvider instanceof ChunkProviderServer) {
-                ((ChunkProviderServer) chunkProvider).loadChunkOnProvideRequest = false;
+        if (!event.world.isRemote && event.world instanceof WorldServer) {
+            WorldServer world = (WorldServer) event.world;
+
+            if (ConfigGeneral.disableChunkLoadingOnRequest) {
+                IChunkProvider chunkProvider = world.getChunkProvider();
+
+                if (chunkProvider instanceof ChunkProviderServer) {
+                    ((ChunkProviderServer) chunkProvider).loadChunkOnProvideRequest = false;
+                }
             }
+
+            if (ConfigGeneral.autoUnloadDimensions) {
+                checkDimensionToUnload(world);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onWorldUnload(WorldEvent.Unload event) {
+        if (!event.world.isRemote) {
+            pendingForcedChunks.remove(event.world);
+            pendingUnloadDimensions.remove(event.world);
         }
     }
 
@@ -41,45 +61,74 @@ public class EventHandler {
                 if (!coordMap.containsKey(event.location)) {
                     coordMap.put(event.location, 0);
                 }
+
+                // Don't auto unload dimension - we have forced chunks!
+                pendingUnloadDimensions.remove(event.ticket.world);
             }
         }
     }
 
     @SubscribeEvent
     public void onChunkUnforce(UnforceChunkEvent event) {
-        var coordMap = getPendingForcedChunksForWorld((WorldServer) event.ticket.world);
-        if (coordMap.containsKey(event.location)) {
-            coordMap.remove(event.location);
+        if (!event.ticket.world.isRemote && event.ticket.world instanceof WorldServer) {
+            WorldServer world = (WorldServer) event.ticket.world;
+
+            // Prevent chunks to be auto loaded
+            var coordMap = getPendingForcedChunksForWorld((WorldServer) event.ticket.world);
+            if (coordMap.containsKey(event.location)) {
+                coordMap.remove(event.location);
+            }
+
+            // Check dimension to auto unload
+            checkDimensionToUnload(world);
+        }
+    }
+
+    @SubscribeEvent
+    public void onChunkLoad(ChunkEvent.Load event) {
+        pendingUnloadDimensions.remove(event.world);
+    }
+
+    @SubscribeEvent
+    public void onChunkUnload(ChunkEvent.Load event) {
+        // Check dimension to unload
+        if (ConfigGeneral.autoUnloadDimensions && !event.world.isRemote && event.world instanceof WorldServer) {
+            checkDimensionToUnload((WorldServer) event.world);
         }
     }
 
     @SubscribeEvent
     public void onWorldTick(WorldTickEvent event) {
-        if (ConfigGeneral.disableChunkLoadingOnRequest && ConfigGeneral.autoLoadChunksOnTicketCreation
-            && event.side == Side.SERVER
-            && event.world instanceof WorldServer) {
-            var coordMap = getPendingForcedChunksForWorld((WorldServer) event.world);
-            var toRemove = new HashSet<ChunkCoordIntPair>();
+        if (event.side == Side.SERVER && event.world instanceof WorldServer) {
+            WorldServer world = (WorldServer) event.world;
 
-            for (ChunkCoordIntPair coords : coordMap.keySet()) {
-                Integer ticksWaited = coordMap.get(coords);
+            // Load forced chunks
+            loadChunks(world);
 
-                // Wait at least one second (= 20 ticks) before loading forced chunks.
-                if (ticksWaited >= 20) {
-                    IChunkProvider provider = ((WorldServer) event.world).getChunkProvider();
-                    if (!provider.chunkExists(coords.chunkXPos, coords.chunkZPos)) {
-                        provider.loadChunk(coords.chunkXPos, coords.chunkZPos);
-                    }
-                    toRemove.add(coords);
-                } else {
-                    coordMap.put(coords, ticksWaited + 1);
-                }
-            }
-
-            for (ChunkCoordIntPair coords : toRemove) {
-                coordMap.remove(coords);
-            }
+            // Unload dimension
+            unloadDimension(world);
         }
+    }
+
+    private void checkDimensionToUnload(WorldServer world) {
+        // Check if already pending
+        if (pendingUnloadDimensions.containsKey(world)) {
+            return;
+        }
+
+        // Check blacklist
+        if (ConfigGeneral.isOnAutoUnloadDimensionBlacklist(world.provider.dimensionId)) {
+            return;
+        }
+
+        // Check loaded chunks
+        if (world.theChunkProviderServer.getLoadedChunkCount() > world.getPersistentChunks()
+            .size()) {
+            return;
+        }
+
+        // Put on list
+        pendingUnloadDimensions.put(world, 0);
     }
 
     private HashMap<ChunkCoordIntPair, Integer> getPendingForcedChunksForWorld(WorldServer world) {
@@ -87,5 +136,47 @@ public class EventHandler {
             pendingForcedChunks.put(world, new HashMap<>());
         }
         return pendingForcedChunks.get(world);
+    }
+
+    private void loadChunks(WorldServer world) {
+        var coordMap = getPendingForcedChunksForWorld(world);
+        var toRemove = new HashSet<ChunkCoordIntPair>();
+
+        for (ChunkCoordIntPair coords : coordMap.keySet()) {
+            Integer ticksWaited = coordMap.get(coords);
+
+            // Wait at least one second (= 20 ticks) before loading forced chunks.
+            if (ticksWaited >= ConfigGeneral.ticksBeforeLoadChunk) {
+                IChunkProvider provider = world.getChunkProvider();
+                if (!provider.chunkExists(coords.chunkXPos, coords.chunkZPos)) {
+                    provider.loadChunk(coords.chunkXPos, coords.chunkZPos);
+                }
+                toRemove.add(coords);
+            } else {
+                // Tick
+                coordMap.put(coords, ticksWaited + 1);
+            }
+        }
+
+        for (ChunkCoordIntPair coords : toRemove) {
+            coordMap.remove(coords);
+        }
+    }
+
+    private void unloadDimension(WorldServer world) {
+        Integer ticksWaited = pendingUnloadDimensions.getOrDefault(world, -1);
+
+        if (ticksWaited == -1) {
+            return;
+        }
+
+        if (ticksWaited >= ConfigGeneral.ticksBeforeUnloadDimension) {
+            // Unload dimension
+            pendingUnloadDimensions.remove(world);
+            DimensionManager.unloadWorld(world.provider.dimensionId);
+        } else {
+            // Tick
+            pendingUnloadDimensions.put(world, ticksWaited + 1);
+        }
     }
 }
