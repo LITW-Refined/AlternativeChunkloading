@@ -8,6 +8,8 @@ public final class ConfigManager {
     public static void registerConfigs() {
         try {
             ConfigurationManager.registerConfig(ConfigGeneral.class);
+            ConfigurationManager.registerConfig(ConfigBetterChunkloading.class);
+            ConfigurationManager.registerConfig(ConfigBetterChunkloading.class);
         } catch (ConfigException e) {
             throw new RuntimeException(e);
         }

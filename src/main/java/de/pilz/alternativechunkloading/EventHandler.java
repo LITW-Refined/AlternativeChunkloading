@@ -16,7 +16,8 @@ import net.minecraftforge.event.world.WorldEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.relauncher.Side;
-import de.pilz.alternativechunkloading.configuration.ConfigGeneral;
+import de.pilz.alternativechunkloading.configuration.ConfigAutoUnloadDimensions;
+import de.pilz.alternativechunkloading.configuration.ConfigBetterChunkloading;
 
 public class EventHandler {
 
@@ -28,7 +29,7 @@ public class EventHandler {
         if (!event.world.isRemote && event.world instanceof WorldServer) {
             WorldServer world = (WorldServer) event.world;
 
-            if (ConfigGeneral.disableChunkLoadingOnRequest) {
+            if (ConfigBetterChunkloading.disableChunkLoadingOnRequest) {
                 IChunkProvider chunkProvider = world.getChunkProvider();
 
                 if (chunkProvider instanceof ChunkProviderServer) {
@@ -48,7 +49,8 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onChunkForce(ForceChunkEvent event) {
-        if (ConfigGeneral.disableChunkLoadingOnRequest && ConfigGeneral.autoLoadChunksOnTicketCreation
+        if (ConfigBetterChunkloading.disableChunkLoadingOnRequest
+            && ConfigBetterChunkloading.autoLoadChunksOnTicketCreation
             && !event.ticket.world.isRemote) {
             if (event.ticket.world instanceof WorldServer) {
                 // Do not load the chunk instantly to prevent colidation with sync chunk loading and chunkloaders that
@@ -97,8 +99,8 @@ public class EventHandler {
 
     private void checkDimensionToUnload(WorldServer world) {
         // Check blacklist
-        if (!ConfigGeneral.autoUnloadDimensions
-            || ConfigGeneral.isOnAutoUnloadDimensionBlacklist(world.provider.dimensionId)) {
+        if (!ConfigAutoUnloadDimensions.enabled
+            || ConfigAutoUnloadDimensions.isDimensionBlacklisted(world.provider.dimensionId)) {
             return;
         }
 
@@ -127,7 +129,7 @@ public class EventHandler {
             Integer ticksWaited = coordMap.get(coords);
 
             // Wait at least one second (= 20 ticks) before loading forced chunks.
-            if (ticksWaited >= ConfigGeneral.ticksBeforeLoadChunk) {
+            if (ticksWaited >= ConfigAutoUnloadDimensions.ticksBeforeLoadChunk) {
                 IChunkProvider provider = world.getChunkProvider();
                 if (!provider.chunkExists(coords.chunkXPos, coords.chunkZPos)) {
                     provider.loadChunk(coords.chunkXPos, coords.chunkZPos);
@@ -149,7 +151,7 @@ public class EventHandler {
 
         if (ticksWaited == -1) {
             checkDimensionToUnload(world);
-        } else if (ticksWaited >= ConfigGeneral.ticksBeforeUnloadDimension) {
+        } else if (ticksWaited >= ConfigAutoUnloadDimensions.ticksBeforeLoadChunk) {
             // Unload dimension
             pendingUnloadDimensions.remove(world);
             DimensionManager.unloadWorld(world.provider.dimensionId);
