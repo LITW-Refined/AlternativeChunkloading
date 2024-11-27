@@ -29,7 +29,8 @@ public class EventHandler {
         if (!event.world.isRemote && event.world instanceof WorldServer) {
             WorldServer world = (WorldServer) event.world;
 
-            if (ConfigBetterChunkloading.disableChunkLoadingOnRequest) {
+            if (ConfigBetterChunkloading.disableChunkLoadingOnRequest
+                && !ConfigBetterChunkloading.isDimensionBlacklisted(world.provider.dimensionId)) {
                 IChunkProvider chunkProvider = world.getChunkProvider();
 
                 if (chunkProvider instanceof ChunkProviderServer) {
@@ -51,7 +52,8 @@ public class EventHandler {
     public void onChunkForce(ForceChunkEvent event) {
         if (ConfigBetterChunkloading.disableChunkLoadingOnRequest
             && ConfigBetterChunkloading.autoLoadChunksOnTicketCreation
-            && !event.ticket.world.isRemote) {
+            && !event.ticket.world.isRemote
+            && !ConfigBetterChunkloading.isDimensionBlacklisted(event.ticket.world.provider.dimensionId)) {
             if (event.ticket.world instanceof WorldServer) {
                 // Do not load the chunk instantly to prevent colidation with sync chunk loading and chunkloaders that
                 // creates a ticket while loading the chunk.
@@ -68,7 +70,9 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onChunkUnforce(UnforceChunkEvent event) {
-        if (!event.ticket.world.isRemote && event.ticket.world instanceof WorldServer) {
+        if (!event.ticket.world.isRemote
+            && !ConfigBetterChunkloading.isDimensionBlacklisted(event.ticket.world.provider.dimensionId)
+            && event.ticket.world instanceof WorldServer) {
             WorldServer world = (WorldServer) event.ticket.world;
 
             // Prevent chunks to be auto loaded
@@ -90,10 +94,14 @@ public class EventHandler {
             WorldServer world = (WorldServer) event.world;
 
             // Load forced chunks
-            loadChunks(world);
+            if (!ConfigBetterChunkloading.isDimensionBlacklisted(event.world.provider.dimensionId)) {
+                loadChunks(world);
+            }
 
             // Unload dimension
-            unloadDimension(world);
+            if (!ConfigAutoUnloadDimensions.isDimensionBlacklisted(event.world.provider.dimensionId)) {
+                unloadDimension(world);
+            }
         }
     }
 
