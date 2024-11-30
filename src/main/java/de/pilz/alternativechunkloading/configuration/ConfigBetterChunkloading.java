@@ -1,5 +1,7 @@
 package de.pilz.alternativechunkloading.configuration;
 
+import net.minecraft.world.WorldProvider;
+
 import com.gtnewhorizon.gtnhlib.config.Config;
 
 import de.pilz.alternativechunkloading.AlternativeChunkloading;
@@ -15,20 +17,39 @@ public class ConfigBetterChunkloading {
     @Config.DefaultBoolean(true)
     public static boolean autoLoadChunksOnTicketCreation;
 
-    @Config.Comment("Dimension that should be ignored.")
+    @Config.Comment("Dimension that should be ignored. Write down the id of the dimension.")
     @Config.DefaultIntList({})
-    public static int[] blacklist;
+    public static int[] dimensionBlacklist;
 
-    @Config.Comment("Tread \"blacklist\" as whitelist.")
+    @Config.Comment("Tread \"dimensionBlacklist\" as whitelist.")
     @Config.DefaultBoolean(false)
-    public static boolean blacklistAsWhitelist;
+    public static boolean dimensionBlacklistAsWhitelist;
+
+    @Config.Comment("Provider that should be ignored. Write down the full class name (includes the package name).")
+    @Config.DefaultIntList({})
+    public static String[] providerBlacklist;
+
+    @Config.Comment("Tread \"providerBlacklist\" as whitelist.")
+    @Config.DefaultBoolean(false)
+    public static boolean providerBlacklistAsWhitelist;
 
     public static boolean isDimensionBlacklisted(int dim) {
-        for (int test : blacklist) {
+        for (int test : dimensionBlacklist) {
             if (test == dim) {
-                return !blacklistAsWhitelist;
+                return !dimensionBlacklistAsWhitelist;
             }
         }
-        return blacklistAsWhitelist;
+        return dimensionBlacklistAsWhitelist;
+    }
+
+    public static boolean isProviderBlacklisted(WorldProvider provider) {
+        String name = provider.getClass()
+            .getName();
+        for (String test : providerBlacklist) {
+            if (test.equals(name)) {
+                return !providerBlacklistAsWhitelist;
+            }
+        }
+        return providerBlacklistAsWhitelist;
     }
 }

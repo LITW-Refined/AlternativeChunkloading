@@ -30,7 +30,8 @@ public class EventHandler {
             WorldServer world = (WorldServer) event.world;
 
             if (ConfigBetterChunkloading.disableChunkLoadingOnRequest
-                && !ConfigBetterChunkloading.isDimensionBlacklisted(world.provider.dimensionId)) {
+                && !ConfigBetterChunkloading.isDimensionBlacklisted(world.provider.dimensionId)
+                && !ConfigBetterChunkloading.isProviderBlacklisted(world.provider)) {
                 IChunkProvider chunkProvider = world.getChunkProvider();
 
                 if (chunkProvider instanceof ChunkProviderServer) {
@@ -53,7 +54,8 @@ public class EventHandler {
         if (ConfigBetterChunkloading.disableChunkLoadingOnRequest
             && ConfigBetterChunkloading.autoLoadChunksOnTicketCreation
             && !event.ticket.world.isRemote
-            && !ConfigBetterChunkloading.isDimensionBlacklisted(event.ticket.world.provider.dimensionId)) {
+            && !ConfigBetterChunkloading.isDimensionBlacklisted(event.ticket.world.provider.dimensionId)
+            && !ConfigBetterChunkloading.isProviderBlacklisted(event.ticket.world.provider)) {
             if (event.ticket.world instanceof WorldServer) {
                 // Do not load the chunk instantly to prevent colidation with sync chunk loading and chunkloaders that
                 // creates a ticket while loading the chunk.
@@ -72,6 +74,7 @@ public class EventHandler {
     public void onChunkUnforce(UnforceChunkEvent event) {
         if (!event.ticket.world.isRemote
             && !ConfigBetterChunkloading.isDimensionBlacklisted(event.ticket.world.provider.dimensionId)
+            && !ConfigBetterChunkloading.isProviderBlacklisted(event.ticket.world.provider)
             && event.ticket.world instanceof WorldServer) {
             WorldServer world = (WorldServer) event.ticket.world;
 
@@ -94,12 +97,14 @@ public class EventHandler {
             WorldServer world = (WorldServer) event.world;
 
             // Load forced chunks
-            if (!ConfigBetterChunkloading.isDimensionBlacklisted(event.world.provider.dimensionId)) {
+            if (!ConfigBetterChunkloading.isDimensionBlacklisted(event.world.provider.dimensionId)
+                && !ConfigBetterChunkloading.isProviderBlacklisted(event.world.provider)) {
                 loadChunks(world);
             }
 
             // Unload dimension
-            if (!ConfigAutoUnloadDimensions.isDimensionBlacklisted(event.world.provider.dimensionId)) {
+            if (!ConfigAutoUnloadDimensions.isDimensionBlacklisted(event.world.provider.dimensionId)
+                && !ConfigAutoUnloadDimensions.isProviderBlacklisted(event.world.provider)) {
                 unloadDimension(world);
             }
         }
@@ -108,7 +113,8 @@ public class EventHandler {
     private void checkDimensionToUnload(WorldServer world) {
         // Check blacklist
         if (!ConfigAutoUnloadDimensions.enabled
-            || ConfigAutoUnloadDimensions.isDimensionBlacklisted(world.provider.dimensionId)) {
+            || ConfigAutoUnloadDimensions.isDimensionBlacklisted(world.provider.dimensionId)
+                && !ConfigAutoUnloadDimensions.isProviderBlacklisted(world.provider)) {
             return;
         }
 
