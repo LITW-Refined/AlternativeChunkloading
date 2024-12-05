@@ -14,8 +14,8 @@ public class ConfigAutoUnloadDimensions {
     public static boolean enabled;
 
     @Config.Comment("Ticks before a chunk should be loaded or unloaded after a chunkload ticket as been created or removed. Only has affect if \"enabled\" is active.")
-    @Config.DefaultInt(20)
-    public static int ticksBeforeLoadChunk;
+    @Config.DefaultInt(1200)
+    public static int ticksBeforeUnloadDimension;
 
     @Config.Comment("Dimensions that should be ignored.")
     @Config.DefaultIntList({ 1, -1 })

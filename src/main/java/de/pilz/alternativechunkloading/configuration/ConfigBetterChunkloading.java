@@ -17,6 +17,10 @@ public class ConfigBetterChunkloading {
     @Config.DefaultBoolean(true)
     public static boolean autoLoadChunksOnTicketCreation;
 
+    @Config.Comment("Ticks before a chunk should be loaded or unloaded after a chunkload ticket as been created or removed. Only has affect if \"autoLoadChunksOnTicketCreation\" is active.")
+    @Config.DefaultInt(20)
+    public static int ticksBeforeLoadChunk;
+
     @Config.Comment("Dimension that should be ignored. Write down the id of the dimension.")
     @Config.DefaultIntList({})
     public static int[] dimensionBlacklist;

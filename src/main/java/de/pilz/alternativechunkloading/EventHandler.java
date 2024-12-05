@@ -143,7 +143,7 @@ public class EventHandler {
             Integer ticksWaited = coordMap.get(coords);
 
             // Wait at least one second (= 20 ticks) before loading forced chunks.
-            if (ticksWaited >= ConfigAutoUnloadDimensions.ticksBeforeLoadChunk) {
+            if (ticksWaited >= ConfigBetterChunkloading.ticksBeforeLoadChunk) {
                 IChunkProvider provider = world.getChunkProvider();
                 if (!provider.chunkExists(coords.chunkXPos, coords.chunkZPos)) {
                     provider.loadChunk(coords.chunkXPos, coords.chunkZPos);
@@ -165,7 +165,7 @@ public class EventHandler {
 
         if (ticksWaited == -1) {
             checkDimensionToUnload(world);
-        } else if (ticksWaited >= ConfigAutoUnloadDimensions.ticksBeforeLoadChunk) {
+        } else if (ticksWaited >= ConfigAutoUnloadDimensions.ticksBeforeUnloadDimension) {
             // Unload dimension
             pendingUnloadDimensions.remove(world);
             DimensionManager.unloadWorld(world.provider.dimensionId);
