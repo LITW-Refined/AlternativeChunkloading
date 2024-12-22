@@ -18,7 +18,7 @@ public class ConfigAutoUnloadDimensions {
     public static int ticksBeforeUnloadDimension;
 
     @Config.Comment("Dimensions that should be ignored.")
-    @Config.DefaultIntList({ 1, -1 })
+    @Config.DefaultIntList({})
     public static int[] dimensionBlacklist;
 
     @Config.Comment("Tread \"dimensionBlacklist\" as whitelist.")
