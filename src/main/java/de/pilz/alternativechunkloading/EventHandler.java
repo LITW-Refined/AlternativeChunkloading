@@ -119,8 +119,13 @@ public class EventHandler {
         }
 
         // Check loaded chunks
-        if (world.theChunkProviderServer.getLoadedChunkCount() > world.getPersistentChunks()
-            .size()) {
+        if (world.theChunkProviderServer.getLoadedChunkCount() != 0) {
+            return;
+        }
+
+        // Check forced chunks
+        if (world.getPersistentChunks()
+            .size() != 0) {
             return;
         }
 
