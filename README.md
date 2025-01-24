@@ -25,6 +25,22 @@ This continues functionality of chunk loading tickers. So anytime whenever a chu
 
 Basically all mods should work like before. I'm using this since over a year now now without bad side-effects. The general performance is slightly better while the TPS may increase slightly when loading/unloading many chunks at the same time (like when flying into one direction).
 
+### Patched mods
+
+Mods that has been patched directly or via mixin. The most fixes does even have benefit without Alternative Chunkloading installed as they now use the generally prefered way.
+
+- Flood Lights *(Prevent cascade chunkloading)*
+- Ender IO *(Prevent cascade chunkloading via electrical lights)*
+- Minecraft *(load chunk before nether portal generation)*
+
+### Known problematic mods
+
+- Dimensional Doors *(can be blacklisted as workaround)*
+
+### Note for mods that relay on the vanilla behavior
+
 Remember that this way mods or players usages that relay on the feature to automatically load a chunk when just requesting a block (like technic mods that allows you very long pipelines for example) will not work anymore. You now need to ensure that each chunk wich contains relevant things to be chunkloaded.
+
+### Chunkloaders
 
 Mods, like FTB Utilities or Server Utilities should work like before. But all chunkloaders that uses a block will probably need a fix in the code. Think about using [my fork of Chicken Chunks](https://github.com/Pilzinsel64/ChickenChunks/).
