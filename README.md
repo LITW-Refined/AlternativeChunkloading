@@ -29,9 +29,8 @@ Basically all mods should work like before. I'm using this since over a year now
 
 Mods that has been patched directly or via mixin. The most fixes does even have benefit without Alternative Chunkloading installed as they now use the generally prefered way.
 
-- Flood Lights *(Prevent cascade chunkloading)*
-- Ender IO *(Prevent cascade chunkloading via electrical lights)*
-- Minecraft *(load chunk before nether portal generation)*
+- Flood Lights https://github.com/GTNewHorizons/FloodLights/pull/8
+- Minecraft *(Mixin: load chunk before generating a nether portal)*
 
 ### Known problematic mods
 
