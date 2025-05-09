@@ -20,7 +20,8 @@ Most mods work unchanged. I've run this mod for over a year without major issues
 
 Mods that has been patched directly or via mixin. The most fixes does even have benefit without Alternative Chunkloading installed as they now use the generally prefered way.
 
-- Flood Lights https://github.com/GTNewHorizons/FloodLights/pull/8
+- [Flood Lights](https://github.com/GTNewHorizons/NaturesCompass) ([PR](https://github.com/GTNewHorizons/FloodLights/pull/8))
+- [Natures Compass](https://github.com/GTNewHorizons/NaturesCompass) ([PR](https://github.com/GTNewHorizons/NaturesCompass/pull/10))
 - Minecraft *(Mixin: load chunk before generating a nether portal)*
 
 ### Known problematic mods
