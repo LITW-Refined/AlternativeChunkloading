@@ -1,4 +1,4 @@
-package de.pilz.alternativechunkloading.mixin.early;
+package de.pilz.alternativechunkloading.mixins.early;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.Teleporter;

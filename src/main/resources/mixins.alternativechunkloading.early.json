@@ -1,7 +1,7 @@
 {
     "required": true,
-    "minVersion": "0.7.11",
-    "package": "de.pilz.alternativechunkloading.mixin.early",
+    "minVersion": "0.8.5-GTNH",
+    "package": "de.pilz.alternativechunkloading.mixins.early",
     "refmap": "mixins.alternativechunkloading.refmap.json",
     "target": "@env(DEFAULT)",
     "compatibilityLevel": "JAVA_8"
