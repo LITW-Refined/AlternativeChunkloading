@@ -15,11 +15,16 @@ import de.pilz.alternativechunkloading.configuration.ConfigFixes;
 public enum Mixins implements IMixins {
 
     VANILLA_FIX_NETHER_PORTAL_GENERATION(
-        new MixinBuilder("Fix nehter portal generation").addTargetedMod(TargetedMod.VANILLA)
+        new MixinBuilder("Fix nether portal generation").addTargetedMod(TargetedMod.VANILLA)
             .setSide(Side.BOTH)
             .setPhase(Phase.EARLY)
             .setApplyIf(() -> ConfigFixes.fixVanillaNetherPortalGeneration)
-            .addMixinClasses("MixinTeleporter"));
+            .addMixinClasses("MixinVanilla$Teleporter")),
+    EREBUS_FIX_EREBUS_NULL_CHECKS(new MixinBuilder("Add missing null checks").addTargetedMod(TargetedModEx.THEEREBUS)
+        .setSide(Side.BOTH)
+        .setPhase(Phase.LATE)
+        .setApplyIf(() -> ConfigFixes.fixErebusNullChecks)
+        .addMixinClasses("MixinErebus$SpawnerErebus"));
 
     private final List<String> mixinClasses;
     private final Supplier<Boolean> applyIf;
