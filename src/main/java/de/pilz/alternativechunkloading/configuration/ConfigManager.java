@@ -10,6 +10,7 @@ public final class ConfigManager {
             ConfigurationManager.registerConfig(ConfigGeneral.class);
             ConfigurationManager.registerConfig(ConfigBetterChunkloading.class);
             ConfigurationManager.registerConfig(ConfigAutoUnloadDimensions.class);
+            ConfigurationManager.registerConfig(ConfigFixes.class);
         } catch (ConfigException e) {
             throw new RuntimeException(e);
         }

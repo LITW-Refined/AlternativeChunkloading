@@ -9,7 +9,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import de.pilz.alternativechunkloading.configuration.ConfigManager;
 
 @Mod(
     modid = AlternativeChunkloading.MODID,
@@ -26,7 +25,6 @@ public class AlternativeChunkloading {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        ConfigManager.registerConfigs();
         AlternativeChunkloading.LOG.info("I am the mod 'Alternative Chunkloading' at version " + Tags.VERSION);
     }
 

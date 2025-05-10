@@ -11,6 +11,7 @@ import cpw.mods.fml.common.DummyModContainer;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import de.pilz.alternativechunkloading.Tags;
+import de.pilz.alternativechunkloading.configuration.ConfigManager;
 import de.pilz.alternativechunkloading.mixins.Mixins;
 
 @IFMLLoadingPlugin.MCVersion("1.7.10")
@@ -18,6 +19,10 @@ public class AlternativeChunkloadingCore extends DummyModContainer implements IF
 
     public static final String[] DEFAULT_TRANSFORMERS = new String[] {
         "com.gtnewhorizon.gtnhlib.core.transformer.EventBusSubTransformer" };
+
+    static {
+        ConfigManager.registerConfigs();
+    }
 
     public AlternativeChunkloadingCore() {
         super(new ModMetadata());
