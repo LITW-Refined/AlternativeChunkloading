@@ -1,4 +1,4 @@
-package de.pilz.alternativechunkloading.mixins.late;
+package de.pilz.alternativechunkloading.mixins.late.erebus;
 
 import net.minecraft.world.WorldServer;
 
@@ -13,7 +13,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import erebus.world.SpawnerErebus;
 
 @Mixin(SpawnerErebus.class)
-public class MixinErebus$SpawnerErebus {
+public class MixinSpawnerErebus {
 
     @Inject(
         method = "onServerTick",
@@ -24,8 +24,7 @@ public class MixinErebus$SpawnerErebus {
             by = 2),
         remap = false,
         cancellable = true)
-    private void alternativeChunkloading$onServerTick$addNullCheck(CallbackInfo callback,
-        @Local WorldServer erebusWorld) {
+    private void onServerTick$addNullCheck(CallbackInfo callback, @Local WorldServer erebusWorld) {
         if (erebusWorld == null) {
             callback.cancel();
         }

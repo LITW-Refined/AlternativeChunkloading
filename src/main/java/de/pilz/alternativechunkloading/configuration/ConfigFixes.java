@@ -14,4 +14,8 @@ public class ConfigFixes {
     @Config.Comment("Adds a missing null check to Erebus.")
     @Config.DefaultBoolean(true)
     public static boolean fixErebusNullChecks;
+
+    @Config.Comment("Adds compatibility with Dimensional Doors.")
+    @Config.DefaultBoolean(true)
+    public static boolean fixDimDoorsCompatibility;
 }

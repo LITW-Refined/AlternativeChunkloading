@@ -4,7 +4,8 @@ import com.gtnewhorizon.gtnhlib.mixin.ITargetedMod;
 
 public enum TargetedModEx implements ITargetedMod {
 
-    THEEREBUS("Erebus", null, "erebus");
+    THEEREBUS("Erebus", null, "erebus"),
+    DIMDOORS("Dimensional Doors", null, "dimdoors");
 
     /** The "name" in the @Mod annotation */
     private final String modName;

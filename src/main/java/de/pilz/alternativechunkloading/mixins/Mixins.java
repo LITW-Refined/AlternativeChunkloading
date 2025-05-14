@@ -19,12 +19,22 @@ public enum Mixins implements IMixins {
             .setSide(Side.BOTH)
             .setPhase(Phase.EARLY)
             .setApplyIf(() -> ConfigFixes.fixVanillaNetherPortalGeneration)
-            .addMixinClasses("MixinVanilla$Teleporter")),
+            .addMixinClasses("minecraft.MixinTeleporter")),
     EREBUS_FIX_EREBUS_NULL_CHECKS(new MixinBuilder("Add missing null checks").addTargetedMod(TargetedModEx.THEEREBUS)
         .setSide(Side.BOTH)
         .setPhase(Phase.LATE)
         .setApplyIf(() -> ConfigFixes.fixErebusNullChecks)
-        .addMixinClasses("MixinErebus$SpawnerErebus"));
+        .addMixinClasses("erebus.MixinSpawnerErebus")),
+    EREBUS_FIX_DIMDOORS_COMPAT(
+        new MixinBuilder("Add compatibility with Dimensional Doors").addTargetedMod(TargetedModEx.DIMDOORS)
+            .setSide(Side.BOTH)
+            .setPhase(Phase.LATE)
+            .setApplyIf(() -> ConfigFixes.fixDimDoorsCompatibility)
+            .addMixinClasses(
+                "dimdoors.MixinChunkBlockSetter",
+                "dimdoors.MixinDungeonSchematic",
+                "dimdoors.MixinWorldBlockSettings",
+                "dimdoors.MixinPocketBuilder"));
 
     private final List<String> mixinClasses;
     private final Supplier<Boolean> applyIf;
