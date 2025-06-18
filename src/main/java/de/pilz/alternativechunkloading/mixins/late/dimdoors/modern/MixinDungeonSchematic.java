@@ -1,4 +1,4 @@
-package de.pilz.alternativechunkloading.mixins.late.dimdoors;
+package de.pilz.alternativechunkloading.mixins.late.dimdoors.modern;
 
 import net.minecraft.world.World;
 

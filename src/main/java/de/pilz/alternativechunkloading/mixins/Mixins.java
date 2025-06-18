@@ -10,6 +10,7 @@ import com.gtnewhorizon.gtnhlib.mixin.Phase;
 import com.gtnewhorizon.gtnhlib.mixin.Side;
 import com.gtnewhorizon.gtnhlib.mixin.TargetedMod;
 
+import cpw.mods.fml.common.Loader;
 import de.pilz.alternativechunkloading.configuration.ConfigFixes;
 
 public enum Mixins implements IMixins {
@@ -29,12 +30,36 @@ public enum Mixins implements IMixins {
         new MixinBuilder("Add compatibility with Dimensional Doors").addTargetedMod(TargetedModEx.DIMDOORS)
             .setSide(Side.BOTH)
             .setPhase(Phase.LATE)
-            .setApplyIf(() -> ConfigFixes.fixDimDoorsCompatibility)
+            .setApplyIf(
+                () -> ConfigFixes.fixDimDoorsCompatibility && Loader.isModLoaded(TargetedModEx.DIMDOORS.getModName())
+                    && Loader.instance()
+                        .getIndexedModList()
+                        .get(TargetedModEx.DIMDOORS.getModName())
+                        .getMod()
+                        .getClass()
+                        .getName() == "DimDoors")
             .addMixinClasses(
-                "dimdoors.MixinChunkBlockSetter",
-                "dimdoors.MixinDungeonSchematic",
-                "dimdoors.MixinWorldBlockSettings",
-                "dimdoors.MixinPocketBuilder"));
+                "dimdoors.modern.MixinChunkBlockSetter",
+                "dimdoors.modern.MixinDungeonSchematic",
+                "dimdoors.modern.MixinWorldBlockSettings",
+                "dimdoors.modern.MixinPocketBuilder")),
+    EREBUS_FIX_DIMDOORS_LEGACY_COMPAT(
+        new MixinBuilder("Add compatibility with Dimensional Doors").addTargetedMod(TargetedModEx.DIMDOORS)
+            .setSide(Side.BOTH)
+            .setPhase(Phase.LATE)
+            .setApplyIf(
+                () -> ConfigFixes.fixDimDoorsCompatibility && Loader.isModLoaded(TargetedModEx.DIMDOORS.getModName())
+                    && Loader.instance()
+                        .getIndexedModList()
+                        .get(TargetedModEx.DIMDOORS.getModName())
+                        .getMod()
+                        .getClass()
+                        .getName() == "mod_pocketDim")
+            .addMixinClasses(
+                "dimdoors.legacy.MixinChunkBlockSetter",
+                "dimdoors.legacy.MixinDungeonSchematic",
+                "dimdoors.legacy.MixinWorldBlockSettings",
+                "dimdoors.legacy.MixinPocketBuilder"));
 
     private final List<String> mixinClasses;
     private final Supplier<Boolean> applyIf;
