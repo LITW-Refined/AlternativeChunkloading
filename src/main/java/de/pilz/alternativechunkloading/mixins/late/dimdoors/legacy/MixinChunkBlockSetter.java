@@ -3,7 +3,7 @@ package de.pilz.alternativechunkloading.mixins.late.dimdoors.legacy;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
-import org.dimdev.dimdoors.schematic.ChunkBlockSetter;
+import StevenDimDoors.mod_pocketDim.schematic.ChunkBlockSetter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

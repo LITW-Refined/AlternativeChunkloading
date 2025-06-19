@@ -2,11 +2,11 @@ package de.pilz.alternativechunkloading.mixins.late.dimdoors.legacy;
 
 import net.minecraft.world.World;
 
-import org.dimdev.dimdoors.Point3D;
-import org.dimdev.dimdoors.core.DimLink;
-import org.dimdev.dimdoors.core.NewDimData;
-import org.dimdev.dimdoors.dungeon.DungeonSchematic;
-import org.dimdev.dimdoors.schematic.IBlockSetter;
+import StevenDimDoors.mod_pocketDim.Point3D;
+import StevenDimDoors.mod_pocketDim.core.DimLink;
+import StevenDimDoors.mod_pocketDim.core.NewDimData;
+import StevenDimDoors.mod_pocketDim.dungeon.DungeonSchematic;
+import StevenDimDoors.mod_pocketDim.schematic.IBlockSetter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -23,7 +23,7 @@ public class MixinDungeonSchematic {
     @Inject(
         at = @At(
             value = "INVOKE",
-            target = "Lorg/dimdev/dimdoors/dungeon/DungeonSchematic;initDoorTileEntity(Lnet/minecraft/world/World;Lorg/dimdev/dimdoors/Point3D;)V"),
+            target = "LStevenDimDoors/mod_pocketDim/dungeon/DungeonSchematic;initDoorTileEntity(Lnet/minecraft/world/World;LStevenDimDoors/mod_pocketDim/Point3D;)V"),
         method = "createEntranceReverseLink",
         remap = false)
     private static void createEntranceReverseLink$loadChunk(World world, NewDimData dimension, Point3D pocketCenter,
@@ -34,7 +34,7 @@ public class MixinDungeonSchematic {
     @Inject(
         at = @At(
             value = "INVOKE",
-            target = "Lorg/dimdev/dimdoors/schematic/BlockRotator;transformPoint(Lorg/dimdev/dimdoors/Point3D;Lorg/dimdev/dimdoors/Point3D;ILorg/dimdev/dimdoors/Point3D;)V",
+            target = "LStevenDimDoors/mod_pocketDim/schematic/BlockRotator;transformPoint(LStevenDimDoors/mod_pocketDim/Point3D;LStevenDimDoors/mod_pocketDim/Point3D;ILStevenDimDoors/mod_pocketDim/Point3D;)V",
             shift = Shift.AFTER),
         method = "createExitDoorLink",
         remap = false)
@@ -47,7 +47,7 @@ public class MixinDungeonSchematic {
     @Inject(
         at = @At(
             value = "INVOKE",
-            target = "Lorg/dimdev/dimdoors/schematic/BlockRotator;transformPoint(Lorg/dimdev/dimdoors/Point3D;Lorg/dimdev/dimdoors/Point3D;ILorg/dimdev/dimdoors/Point3D;)V",
+            target = "LStevenDimDoors/mod_pocketDim/schematic/BlockRotator;transformPoint(LStevenDimDoors/mod_pocketDim/Point3D;LStevenDimDoors/mod_pocketDim/Point3D;ILStevenDimDoors/mod_pocketDim/Point3D;)V",
             shift = Shift.AFTER),
         method = "createDimensionalDoorLink",
         remap = false)
