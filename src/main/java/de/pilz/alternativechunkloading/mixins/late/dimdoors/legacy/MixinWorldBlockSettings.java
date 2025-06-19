@@ -3,12 +3,12 @@ package de.pilz.alternativechunkloading.mixins.late.dimdoors.legacy;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
-import StevenDimDoors.mod_pocketDim.schematic.WorldBlockSetter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import StevenDimDoors.mod_pocketDim.schematic.WorldBlockSetter;
 import de.pilz.alternativechunkloading.Utils;
 
 @Mixin(WorldBlockSetter.class)

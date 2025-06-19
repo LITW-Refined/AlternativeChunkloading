@@ -2,11 +2,6 @@ package de.pilz.alternativechunkloading.mixins.late.dimdoors.legacy;
 
 import net.minecraft.world.World;
 
-import StevenDimDoors.mod_pocketDim.Point3D;
-import StevenDimDoors.mod_pocketDim.core.DimLink;
-import StevenDimDoors.mod_pocketDim.core.NewDimData;
-import StevenDimDoors.mod_pocketDim.dungeon.DungeonSchematic;
-import StevenDimDoors.mod_pocketDim.schematic.IBlockSetter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -15,6 +10,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.llamalad7.mixinextras.sugar.Local;
 
+import StevenDimDoors.mod_pocketDim.Point3D;
+import StevenDimDoors.mod_pocketDim.core.DimLink;
+import StevenDimDoors.mod_pocketDim.core.NewDimData;
+import StevenDimDoors.mod_pocketDim.dungeon.DungeonSchematic;
+import StevenDimDoors.mod_pocketDim.schematic.IBlockSetter;
 import de.pilz.alternativechunkloading.Utils;
 
 @Mixin(DungeonSchematic.class)
