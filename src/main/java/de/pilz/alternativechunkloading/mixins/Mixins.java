@@ -20,10 +20,7 @@ public enum Mixins implements IMixins {
             .setSide(Side.BOTH)
             .setPhase(Phase.EARLY)
             .setApplyIf(() -> ConfigBetterChunkloading.disableChunkLoadingOnRequest)
-            .addMixinClasses(
-                "minecraft.MixinChunkProviderServer",
-                "minecraft.MixinChunkProviderGenerate",
-                "minecraft.MixinChunk")),
+            .addMixinClasses("minecraft.MixinChunkProviderServer", "minecraft.MixinChunk")),
     VANILLA_FIX_NETHER_PORTAL_GENERATION(
         new MixinBuilder("Fix nether portal generation").addTargetedMod(TargetedMod.VANILLA)
             .setSide(Side.BOTH)
