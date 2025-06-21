@@ -15,7 +15,10 @@ public abstract class MixinChunkProviderServer {
 
     @ModifyExpressionValue(
         method = "provideChunk",
-        at = @At(value = "FIELD", target = "loadChunkOnProvideRequest", opcode = Opcodes.GETFIELD, remap = false))
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/world/gen/ChunkProviderServer;loadChunkOnProvideRequest:Z",
+            opcode = Opcodes.GETFIELD))
     private boolean alternativechunkloading$provideChunk$allowChunkload(boolean original) {
         return original || AlternativeChunkloading.ignoreThreads.contains(
             Thread.currentThread()
