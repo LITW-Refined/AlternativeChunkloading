@@ -30,7 +30,7 @@ public class ConfigBetterChunkloading {
     public static boolean dimensionBlacklistAsWhitelist;
 
     @Config.Comment("Provider that should be ignored. Write down the full class name (includes the package name).")
-    @Config.DefaultIntList({})
+    @Config.DefaultStringList({})
     public static String[] providerBlacklist;
 
     @Config.Comment("Tread \"providerBlacklist\" as whitelist.")

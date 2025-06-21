@@ -10,10 +10,20 @@ import com.gtnewhorizon.gtnhlib.mixin.Phase;
 import com.gtnewhorizon.gtnhlib.mixin.Side;
 import com.gtnewhorizon.gtnhlib.mixin.TargetedMod;
 
+import de.pilz.alternativechunkloading.configuration.ConfigBetterChunkloading;
 import de.pilz.alternativechunkloading.configuration.ConfigFixes;
 
 public enum Mixins implements IMixins {
 
+    VANILLA_MODIFY_FIX_STRUCTURE_GENERATION(
+        new MixinBuilder("Modifies provideChunk to block unallowed requests.").addTargetedMod(TargetedMod.VANILLA)
+            .setSide(Side.BOTH)
+            .setPhase(Phase.EARLY)
+            .setApplyIf(() -> ConfigBetterChunkloading.disableChunkLoadingOnRequest)
+            .addMixinClasses(
+                "minecraft.MixinChunkProviderServer",
+                "minecraft.MixinChunkProviderGenerate",
+                "minecraft.MixinChunk")),
     VANILLA_FIX_NETHER_PORTAL_GENERATION(
         new MixinBuilder("Fix nether portal generation").addTargetedMod(TargetedMod.VANILLA)
             .setSide(Side.BOTH)
