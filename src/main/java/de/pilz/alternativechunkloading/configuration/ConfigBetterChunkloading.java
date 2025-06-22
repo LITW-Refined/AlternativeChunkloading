@@ -9,13 +9,17 @@ import de.pilz.alternativechunkloading.AlternativeChunkloading;
 @Config(modid = AlternativeChunkloading.MODID, category = "alternative_chunkloading")
 public class ConfigBetterChunkloading {
 
-    @Config.Comment("Disables the option \"loadChunkOnProvideRequest\" on server to not load chunks whenever they are maybe requested.")
+    @Config.Comment("The master switch for alternative chunkloading. If true, the option \"loadChunkOnProvideRequest\" on server worlds to not load chunks whenever they are maybe requested will be turned off. Also other options in this category will then take affect.")
     @Config.DefaultBoolean(true)
-    public static boolean disableChunkLoadingOnRequest;
+    public static boolean enable;
 
     @Config.Comment("When \"disableChunkLoadingOnRequest\" is true then this option helps that chunk load tickets continue to load the target chunk automatically. Otherwise such tickets are useless and chunkloaders too. You may want to disable this if your Chunkloader mod can that too (probably not).")
     @Config.DefaultBoolean(true)
     public static boolean autoLoadChunksOnTicketCreation;
+
+    @Config.Comment("Disables the alternative chunkloading feature for the population phase while world generation. If you turn this option off, sometimes you might notice broken structures.")
+    @Config.DefaultBoolean(true)
+    public static boolean disableForPopulation;
 
     @Config.Comment("Ticks before a chunk should be loaded or unloaded after a chunkload ticket as been created or removed. Only has affect if \"autoLoadChunksOnTicketCreation\" is active.")
     @Config.DefaultInt(20)

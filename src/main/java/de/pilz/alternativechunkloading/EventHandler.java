@@ -29,7 +29,7 @@ public class EventHandler {
         if (!event.world.isRemote && event.world instanceof WorldServer) {
             WorldServer world = (WorldServer) event.world;
 
-            if (ConfigBetterChunkloading.disableChunkLoadingOnRequest
+            if (ConfigBetterChunkloading.enable
                 && !ConfigBetterChunkloading.isDimensionBlacklisted(world.provider.dimensionId)
                 && !ConfigBetterChunkloading.isProviderBlacklisted(world.provider)) {
                 IChunkProvider chunkProvider = world.getChunkProvider();
@@ -51,8 +51,7 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onChunkForce(ForceChunkEvent event) {
-        if (ConfigBetterChunkloading.disableChunkLoadingOnRequest
-            && ConfigBetterChunkloading.autoLoadChunksOnTicketCreation
+        if (ConfigBetterChunkloading.enable && ConfigBetterChunkloading.autoLoadChunksOnTicketCreation
             && !event.ticket.world.isRemote
             && !ConfigBetterChunkloading.isDimensionBlacklisted(event.ticket.world.provider.dimensionId)
             && !ConfigBetterChunkloading.isProviderBlacklisted(event.ticket.world.provider)) {
