@@ -4,7 +4,7 @@ A forge mod for Minecraft 1.7.10 that stops so called "ghost loading" or "cascad
 
 ## Technical background
 
-The mod toggles `loadChunkOnProvideRequest` in `ChunkProviderServer` to `false`, stopping chunks from auto-loading when blocks/entities are requested (e.g. `getBlock()`, `getTileEntity()` or `getEntity`). Chunks must now be explicitly loaded via `loadChunk()` before. This helps prevent lag caused by mods (e.g. AE2, Ender IO) unintentionally loading chunks.
+The mod toggles `loadChunkOnProvideRequest` in `ChunkProviderServer` to `false`, stopping chunks from auto-loading when blocks/entities are requested (e.g. `getBlock()`, `getTileEntity()` or `getEntity()`). Chunks must now be explicitly loaded via `loadChunk()` before. This helps prevent lag caused by mods (e.g. AE2, Ender IO) unintentionally loading chunks.
 
 This mod adds several options to allow safer chunk requests. These reduce performance issues depending on your mod setup. Grass spread, multiblocks, or pipelines can trigger unintended loading. The mod prevents this by disabling that called toggle on `WorldEvent.Load`.
 
@@ -22,6 +22,10 @@ Mods that has been patched directly or via mixin. The most fixes does even have 
 
 - [Flood Lights](https://github.com/GTNewHorizons/NaturesCompass) ([PR](https://github.com/GTNewHorizons/FloodLights/pull/8))
 - [Natures Compass](https://github.com/GTNewHorizons/NaturesCompass) ([PR](https://github.com/GTNewHorizons/NaturesCompass/pull/10))
+- [Natures Compass](https://github.com/GTNewHorizons/NaturesCompass) ([PR](https://github.com/GTNewHorizons/NaturesCompass/pull/10))
+- [Erebus]() *(Mixin: Fix NullPointerException)*
+- [Dimensional Doors](https://github.com/vadis365/TheErebus) *(Mixin: Fix portal creation)*
+- [Chicken Chunks](https://github.com/LITW-Refined/ChickenChunks)
 - Minecraft *(Mixin: load chunk before generating a nether portal)*
 
 ### Known problematic mods
@@ -30,11 +34,11 @@ Mods that has been patched directly or via mixin. The most fixes does even have 
 
 ### Note for mods that relay on the vanilla behavior
 
-Mods like FTB Utilities or Server Utilities work fine. Block-based loaders may need fixes. Consider my [Chicken Chunks fork](https://github.com/Pilzinsel64/ChickenChunks/) or open an issue or PR.
+Mods like FTB Utilities or Server Utilities work fine. Block-based loaders may need fixes. Consider my [Chicken Chunks fork](https://github.com/LITW-Refined/ChickenChunks) or open an issue or PR.
 
 ### Chunkloaders
 
-Mods, like FTB Utilities or Server Utilities should work like before. But all chunkloaders that uses a block will probably need a fix in the code. Think about using [my fork of Chicken Chunks](https://github.com/Pilzinsel64/ChickenChunks/).
+Mods, like FTB Utilities or Server Utilities should work like before. But all chunkloaders that uses a block will probably need a fix in the code. Think about using [my fork of Chicken Chunks](https://github.com/LITW-Refined/ChickenChunks).
 
 ## Contribution
 
