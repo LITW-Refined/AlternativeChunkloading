@@ -37,14 +37,7 @@ public enum Mixins implements IMixins {
         new MixinBuilder("Add compatibility with Dimensional Doors").addTargetedMod(TargetedModEx.DIMDOORS)
             .setSide(Side.BOTH)
             .setPhase(Phase.LATE)
-            .setApplyIf(
-                () -> ConfigFixes.fixDimDoorsCompatibility && Loader.isModLoaded(TargetedModEx.DIMDOORS.getModName())
-                    && Loader.instance()
-                        .getIndexedModList()
-                        .get(TargetedModEx.DIMDOORS.getModName())
-                        .getMod()
-                        .getClass()
-                        .getName() == "org.dimdev.dimdoors.DimDoors")
+            .setApplyIf(() -> ConfigFixes.fixDimDoorsCompatibility)
             .addMixinClasses(
                 "dimdoors.modern.MixinChunkBlockSetter",
                 "dimdoors.modern.MixinDungeonSchematic",
@@ -54,14 +47,7 @@ public enum Mixins implements IMixins {
         new MixinBuilder("Add compatibility with Dimensional Doors").addTargetedMod(TargetedModEx.DIMDOORS)
             .setSide(Side.BOTH)
             .setPhase(Phase.LATE)
-            .setApplyIf(
-                () -> ConfigFixes.fixDimDoorsCompatibility && Loader.isModLoaded(TargetedModEx.DIMDOORS.getModName())
-                    && Loader.instance()
-                        .getIndexedModList()
-                        .get(TargetedModEx.DIMDOORS.getModName())
-                        .getMod()
-                        .getClass()
-                        .getName() == "StevenDimDoors.mod_pocketDim.mod_pocketDim")
+            .setApplyIf(() -> ConfigFixes.fixDimDoorsCompatibility)
             .addMixinClasses(
                 "dimdoors.legacy.MixinChunkBlockSetter",
                 "dimdoors.legacy.MixinDungeonSchematic",
