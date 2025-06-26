@@ -10,7 +10,6 @@ import com.gtnewhorizon.gtnhlib.mixin.Phase;
 import com.gtnewhorizon.gtnhlib.mixin.Side;
 import com.gtnewhorizon.gtnhlib.mixin.TargetedMod;
 
-import cpw.mods.fml.common.Loader;
 import de.pilz.alternativechunkloading.configuration.ConfigBetterChunkloading;
 import de.pilz.alternativechunkloading.configuration.ConfigFixes;
 
