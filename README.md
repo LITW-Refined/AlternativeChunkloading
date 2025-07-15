@@ -28,10 +28,6 @@ Mods that has been patched directly or via mixin. The most fixes does even have 
 - [Chicken Chunks](https://github.com/LITW-Refined/ChickenChunks)
 - Minecraft *(Mixin: load chunk before generating a nether portal)*
 
-### Known problematic mods
-
-- Dimensional Doors *(can be blacklisted as workaround)*
-
 ### Note for mods that relay on the vanilla behavior
 
 Mods like FTB Utilities or Server Utilities work fine. Block-based loaders may need fixes. Consider my [Chicken Chunks fork](https://github.com/LITW-Refined/ChickenChunks) or open an issue or PR.
