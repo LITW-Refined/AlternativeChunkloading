@@ -22,7 +22,6 @@ Mods that has been patched directly or via mixin. The most fixes does even have 
 
 - [Flood Lights](https://github.com/GTNewHorizons/NaturesCompass) ([PR](https://github.com/GTNewHorizons/FloodLights/pull/8))
 - [Natures Compass](https://github.com/GTNewHorizons/NaturesCompass) ([PR](https://github.com/GTNewHorizons/NaturesCompass/pull/10))
-- [Natures Compass](https://github.com/GTNewHorizons/NaturesCompass) ([PR](https://github.com/GTNewHorizons/NaturesCompass/pull/10))
 - [Erebus]() *(Mixin: Fix NullPointerException)*
 - [Dimensional Doors](https://github.com/vadis365/TheErebus) *(Mixin: Fix portal creation)*
 - [Chicken Chunks](https://github.com/LITW-Refined/ChickenChunks)
