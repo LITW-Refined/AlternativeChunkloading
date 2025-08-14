@@ -13,7 +13,7 @@ This mod adds several options to allow safer chunk requests. These reduce perfor
 Take a look to the in the file `alternativechunkloading.cfg` in your `config` directory. Every option is explained well there.
 
 > [!note]
-> If you have BugTourch installed, you should disable the option `skipInitialWorldChunkLoad` in `mixins.cfg`.
+> If you have BugTourch installed, you should disable the option `skipInitialWorldChunkLoad` in `mixins.cfg` as Alternative Chunkloading relay on this feature. Otherwise you might die instantly when creating a new world on the client.
 
 ## Compatibility
 
