@@ -12,6 +12,9 @@ This mod adds several options to allow safer chunk requests. These reduce perfor
 
 Take a look to the in the file `alternativechunkloading.cfg` in your `config` directory. Every option is explained well there.
 
+> [!note]
+> If you have BugTourch installed, you should disable the option `skipInitialWorldChunkLoad` in `mixins.cfg`.
+
 ## Compatibility
 
 Most mods work unchanged. I've run this mod for over a year without major issues. Slight TPS improvements during mass chunk loads. Some mods needed patches via mixins or PRs (see GitHub for details).
