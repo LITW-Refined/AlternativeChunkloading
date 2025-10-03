@@ -1,7 +1,9 @@
 package de.pilz.alternativechunkloading;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.WorldServer;
@@ -21,8 +23,9 @@ import de.pilz.alternativechunkloading.configuration.ConfigBetterChunkloading;
 
 public class EventHandler {
 
-    private HashMap<WorldServer, HashMap<ChunkCoordIntPair, Integer>> pendingForcedChunks = new HashMap<>();
-    private HashMap<WorldServer, Integer> pendingUnloadDimensions = new HashMap<>();
+    private Map<WorldServer, HashMap<ChunkCoordIntPair, Integer>> pendingForcedChunks = Collections
+        .synchronizedMap(new HashMap<>());
+    private Map<WorldServer, Integer> pendingUnloadDimensions = Collections.synchronizedMap(new HashMap<>());
 
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
