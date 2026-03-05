@@ -1,7 +1,5 @@
 package de.pilz.alternativechunkloading;
 
-import java.util.ArrayList;
-
 import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +21,7 @@ public class AlternativeChunkloading {
     public static final String MODID = "alternativechunkloading";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
-    public static final ArrayList<Long> ignoreThreads = new ArrayList<>();
+    public static Internals internals = new Internals();
 
     EventHandler eventHandler;
 

@@ -20,8 +20,6 @@ public abstract class MixinChunkProviderServer {
             target = "Lnet/minecraft/world/gen/ChunkProviderServer;loadChunkOnProvideRequest:Z",
             opcode = Opcodes.GETFIELD))
     private boolean alternativechunkloading$provideChunk$allowChunkload(boolean original) {
-        return original || AlternativeChunkloading.ignoreThreads.contains(
-            Thread.currentThread()
-                .getId());
+        return original || AlternativeChunkloading.internals.isPopulating;
     }
 }
