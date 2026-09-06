@@ -39,6 +39,8 @@ public class EventHandler {
 
                 if (chunkProvider instanceof ChunkProviderServer) {
                     ((ChunkProviderServer) chunkProvider).loadChunkOnProvideRequest = false;
+                    AlternativeChunkloading.LOG
+                        .info("Disabled loadChunkOnProvideRequest for dimension " + world.provider.dimensionId);
                 }
             }
         }
